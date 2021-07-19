@@ -7,16 +7,24 @@ namespace LibraryManager
     {
         static void Main(string[] args)
         {
-            string currentDirectory = Directory.GetCurrentDirectory();
-            DirectoryInfo directory = new DirectoryInfo(currentDirectory);
-            var fileName = Path.Combine(directory.FullName, "data.txt");
-            var file = new FileInfo(fileName);
-            if (file.Exists)
-            {
-                using var reader = new StreamReader(file.FullName);
-                Console.SetIn(reader);
-                Console.WriteLine(Console.ReadLine());
-            }
+            Console.WriteLine(@"Welcome to the Osborn Family Library!
+        ,         ,
+        |\\\\ ////|
+        | \\\V/// |
+        |  |~~~|  |
+        |  |===|  |
+        |  |O  |  |
+        |  | S |  |
+         \ |  B| /
+          \|===|/
+           '---'
+To check out or return a book, Please type 1 and hit Return.");
+           var input = Console.ReadLine();
+           if(input == "1") 
+           {
+              Console.WriteLine("Please Enter the Title of the book you wish to Loan."); 
+              var bookSearch = Console.ReadLine();
+           }
         }
     }
 }
