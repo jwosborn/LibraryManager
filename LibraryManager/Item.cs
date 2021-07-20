@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LibraryManager
 {
-    class Item
+    public class Item
     {
         public string Title { get; set; }
         public bool OnLoan { get; set; }

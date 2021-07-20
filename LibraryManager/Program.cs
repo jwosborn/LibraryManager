@@ -7,7 +7,10 @@ namespace LibraryManager
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(@"Welcome to the Osborn Family Library!
+            bool keepGoing = true;
+            while(keepGoing)
+            {
+            Console.WriteLine(@"Welcome to the Osborn Family Library Management App.
         ,         ,
         |\\\\ ////|
         | \\\V/// |
@@ -20,26 +23,56 @@ namespace LibraryManager
            '---'
 To Add a Book to the Library, Please type add or 1 and hit Return. 
 To Checkout a book, Please type checkout or 2 and hit Return.
-To Return a book, Please type return or 3 and hit Return.");
+To Return a book, Please type return or 3 and hit Return.
+To Exit, Please type exit or 4 and hit Return.");
            var menuInput = Console.ReadLine().ToLower();
 
-            //convert this to switch statement
-           if(menuInput == "1" || menuInput == "add") 
-           {
-              Console.WriteLine("Please Enter the Title of the book you wish to add."); 
-              var newBookTitle = Console.ReadLine();
-              Console.WriteLine("Please Enter the Author of the book you wish to add."); 
-              var newBookAuthor = Console.ReadLine();
-           } else if(menuInput == "2" || menuInput == "checkout") 
-           {
-               Console.WriteLine("Please Enter the Title of the book you would like to loan.");
-               var bookSearch = Console.ReadLine();
-               Console.WriteLine("Please enter your full name.");
-               var bookLoanee = Console.ReadLine();
-           } else if(menuInput == "3" || menuInput == "return")
-           {
-               Console.WriteLine("");
-           }
-        }
+                switch (menuInput)
+                {
+                    case "1":
+                    case "add":
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Please Enter the Title of the book you wish to add.");
+                            var newBookTitle = Console.ReadLine();
+                            Console.WriteLine("Please Enter the Author of the book you wish to add.");
+                            var newBookAuthor = Console.ReadLine();
+                            break;
+                        }
+
+                    case "2":
+                    case "checkout":
+                        Console.Clear();
+                        break;
+                    case "3":
+                    case "return":
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Please Enter the Title of the book you are returning.");
+                            var bookSearchTitle = Console.ReadLine();
+                            BookSearch bookSearch = new BookSearch();
+                            var searchList = bookSearch.Search(bookSearchTitle);
+                            Console.WriteLine(searchList);
+                            break;
+                        }
+
+                    case "4":
+                    case "exit":
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Goodbye!");
+                        keepGoing = false;
+                        break;
+                    }
+
+                    default:
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Please enter a valid choice");
+                        break;
+                    }
+                }
+            }
+    }
     }
 }
