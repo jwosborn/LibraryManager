@@ -1,5 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace LibraryManager
 {
@@ -32,11 +36,32 @@ To Exit, Please type exit or 4 and hit Return.");
                     case "1":
                     case "add":
                         {
+                            //read from JSON file
+                            string jsonFilePath = "LibraryManager/data.json";
+                            byte[] json = File.ReadAllBytes(jsonFilePath);
+                            //cast bytes as List<Item>
+                            List<Item> itemsList = JsonSerializer.Deserialize<List<Item>>(json);
                             Console.Clear();
                             Console.WriteLine("Please Enter the Title of the book you wish to add.");
                             var newBookTitle = Console.ReadLine();
                             Console.WriteLine("Please Enter the Author of the book you wish to add.");
                             var newBookAuthor = Console.ReadLine();
+                            //Cast user input as new Item
+                            Item newItem = new Item
+                            {
+                                Title = newBookTitle, 
+                                Author = newBookAuthor, 
+                                OnLoan = false,
+                                Loanee = ""
+                            };
+                            //add new item to previous list read from JSON file
+                            itemsList.Add(newItem);
+                            //serialize to JSON
+                            string jsonString = JsonSerializer.Serialize(itemsList);
+                            //write jsonString to JSON file
+                            System.IO.File.WriteAllText("./LibraryManager/data.json", jsonString);
+                            //success message
+                            Console.WriteLine($"Item Added {newItem.Title}");
                             break;
                         }
 
