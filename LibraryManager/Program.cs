@@ -28,7 +28,8 @@ namespace LibraryManager
 To Add a Book to the Library, Please type add or 1 and hit Return. 
 To Checkout a book, Please type checkout or 2 and hit Return.
 To Return a book, Please type return or 3 and hit Return.
-To Exit, Please type exit or 4 and hit Return.");
+To Remove a book, Please type remove or 4 and hit Return.
+To Exit, Please type exit or 5 and hit Return.");
            var menuInput = Console.ReadLine().ToLower();
 
                 switch (menuInput)
@@ -80,8 +81,20 @@ To Exit, Please type exit or 4 and hit Return.");
                             Console.WriteLine(searchList);
                             break;
                         }
-
                     case "4":
+                    case "remove":
+                        {
+                            //read from JSON file
+                            string jsonFilePath = "LibraryManager/data.json";
+                            byte[] json = File.ReadAllBytes(jsonFilePath);
+                            //cast bytes as List<Item>
+                            List<Item> itemsList = JsonSerializer.Deserialize<List<Item>>(json);
+                            Console.Clear();
+                            Console.WriteLine("Please enter the title of the book you would like to remove permanently from the library.");
+                            string searchTitle = Console.ReadLine();
+                            break;
+                        }
+                    case "5":
                     case "exit":
                     {
                         Console.Clear();
