@@ -92,6 +92,21 @@ To Exit, Please type exit or 5 and hit Return.");
                             Console.Clear();
                             Console.WriteLine("Please enter the title of the book you would like to remove permanently from the library.");
                             string searchTitle = Console.ReadLine();
+                            List<Item> searchResult = itemsList.FindAll(x => x.Title.Contains(searchTitle));
+                            Console.WriteLine("Please enter the ID of the book you would like to delete");
+                            for(int i = 0; i < searchResult.Count; i++)
+                            {
+                                Console.WriteLine($"ID: {i}, Title: {searchResult[i].Title}, Author: {searchResult[i].Author}");
+                            }
+                            int ID = Int32.Parse(Console.ReadLine());
+                            Item itemToDelete = itemsList.Find(x => x.Title.Equals(searchResult[ID].Title));
+                            itemsList.Remove(itemToDelete);
+                            //serialize
+                            string jsonString = JsonSerializer.Serialize(itemsList);
+                            //write jsonString to JSON file
+                            System.IO.File.WriteAllText("./LibraryManager/data.json", jsonString);
+                            //success message
+                            Console.WriteLine($"Item Deleted: {itemToDelete.Title}");
                             break;
                         }
                     case "5":
