@@ -3,30 +3,50 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace LibraryManager
 {
     class Program
     {
+        private const string Menu = @"
+Welcome to the Osborn Family Library Management App.
+                    ,         ,
+                    |\\\\ ////|
+                    | \\\V/// |
+                    |  |~~~|  |
+                    |  |===|  |
+                    |  |O  |  |
+                    |  | S |  |
+                     \ |  B| /
+                      \|===|/
+                       '---'
+1) To Add a Book to the Library, Please type add or 1 and hit Return. 
+2) To Checkout a book, Please type checkout or 2 and hit Return.
+3) To Return a book, Please type return or 3 and hit Return.
+4) To Remove a book, Please type remove or 4 and hit Return.
+5) To Exit, Please type exit or 5 and hit Return.";
+
         static void Main(string[] args)
         {
             bool keepGoing = true;
 
             //read from JSON file
-            string jsonFilePath = "LibraryManager/data.json";
+            string jsonFilePath = "data.json";
             byte[] json = File.ReadAllBytes(jsonFilePath);
             //cast bytes as List<Item>
             List<Item> itemsList = JsonSerializer.Deserialize<List<Item>>(json);
 
-            void Write(){
+            //writes itemsList to data.json
+            void WriteJSON()
+            {
                 //serialize
                 string jsonString = JsonSerializer.Serialize(itemsList);
                 //write jsonString to JSON file
-                System.IO.File.WriteAllText("./LibraryManager/data.json", jsonString);
+                System.IO.File.WriteAllText("data.json", jsonString);
             }
 
-            Item getItem(List<Item> searchResult)
+            //returns specific entry from a list of matching entries or null if none. 
+            Item GetItem(List<Item> searchResult)
             {
                 if (searchResult.Any())
                 {
@@ -42,26 +62,12 @@ namespace LibraryManager
                     return null;
                 }
             }
+
             //Master Loop
             while(keepGoing)
             {
-            Console.WriteLine(@"Welcome to the Osborn Family Library Management App.
-                ,         ,
-                |\\\\ ////|
-                | \\\V/// |
-                |  |~~~|  |
-                |  |===|  |
-                |  |O  |  |
-                |  | S |  |
-                 \ |  B| /
-                  \|===|/
-                   '---'
-        To Add a Book to the Library, Please type add or 1 and hit Return. 
-        To Checkout a book, Please type checkout or 2 and hit Return.
-        To Return a book, Please type return or 3 and hit Return.
-        To Remove a book, Please type remove or 4 and hit Return.
-        To Exit, Please type exit or 5 and hit Return.");
-           var menuInput = Console.ReadLine().ToLower();
+                Console.WriteLine(Menu);
+                var menuInput = Console.ReadLine().ToLower();
 
                 switch (menuInput)
                 {
@@ -83,7 +89,7 @@ namespace LibraryManager
                             };
                             //add new item to previous list read from JSON file
                             itemsList.Add(newItem);
-                            Write();
+                            WriteJSON();
                             Console.Clear();
                             //success message
                             Console.WriteLine($"Item Added {newItem.Title}");
@@ -98,14 +104,14 @@ namespace LibraryManager
                             string searchTitle = Console.ReadLine();
                             List<Item> searchResult = itemsList.FindAll(x => x.Title.Contains(searchTitle) && x.OnLoan.Equals(false));
                             Item itemToLoan = null;
-                            itemToLoan = getItem(searchResult);
+                            itemToLoan = GetItem(searchResult);
                             if (itemToLoan != null && itemToLoan.OnLoan == false) 
                             {
                                 Console.WriteLine("Please enter your Full Name");
                                 var name = Console.ReadLine();
                                 itemToLoan.OnLoan = true;
                                 itemToLoan.Loanee = name;
-                                Write();
+                                WriteJSON();
                                 Console.Clear();
                                 //success message
                                 Console.WriteLine($"Item Loaned: {itemToLoan.Title} to {itemToLoan.Loanee}");
@@ -126,12 +132,12 @@ namespace LibraryManager
                             List<Item> itemsOnLoan = itemsList.FindAll(x => x.Loanee == name);
                             if (itemsOnLoan.Any())
                             {
-                                itemToReturn = getItem(itemsOnLoan);
+                                itemToReturn = GetItem(itemsOnLoan);
                                 if(itemToReturn != null)
                                 {
                                     itemToReturn.Loanee = "";
                                     itemToReturn.OnLoan = false;
-                                    Write();                             
+                                    WriteJSON();                             
                                     Console.Clear();
                                     Console.WriteLine($"Book Returned: {itemToReturn.Title}.");
                                 } else 
@@ -152,9 +158,9 @@ namespace LibraryManager
                             string searchTitle = Console.ReadLine();
                             List<Item> searchResult = itemsList.FindAll(x => x.Title.Contains(searchTitle));
                             Item itemToDelete;
-                            itemToDelete = getItem(searchResult);
+                            itemToDelete = GetItem(searchResult);
                             itemsList.Remove(itemToDelete);
-                            Write();
+                            WriteJSON();
                             Console.Clear();
                             Console.WriteLine($"Item Deleted: {itemToDelete.Title}");
                             break;
