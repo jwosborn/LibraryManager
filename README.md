@@ -8,7 +8,12 @@ I have utilized these features to meet the requirements for Code Louisville.
 4) Read data from an external file, such as text, JSON, CSV, etc and use that data in your application
 
 
-To Run the Application:
+To Run the Application in a terminal window:
 - Clone the repo.
 - Open a terminal window and navigate to the cloned Directory and run this command:  ```$ dotnet run```
 - Follow the onscreen prompts.
+
+To Run the application in Visual Studio:
+- Clone the repo.
+- Change the variable on line 34 of Program.cs from `data.json` to `../../../data.json`.
+- Execute the program.
