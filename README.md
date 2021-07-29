@@ -10,5 +10,5 @@ I have utilized these features to meet the requirements for Code Louisville.
 
 To Run the Application:
 - Clone the repo.
-- Open a terminal window and navigate to the cloned Directory and run this command:  ```$ dotnet run --project LibraryManager```
+- Open a terminal window and navigate to the cloned Directory and run this command:  ```$ dotnet run```
 - Follow the onscreen prompts.
