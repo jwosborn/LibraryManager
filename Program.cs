@@ -20,11 +20,11 @@ Welcome to the Osborn Family Library Management App.
                      \ |  B| /
                       \|===|/
                        '---'
-1) To Add a Book to the Library, Please type add or 1 and hit Return. 
-2) To Checkout a book, Please type checkout or 2 and hit Return.
-3) To Return a book, Please type return or 3 and hit Return.
-4) To Remove a book, Please type remove or 4 and hit Return.
-5) To Exit, Please type exit or 5 and hit Return.";
+1 - To Add a Book to the Library, type add or 1 and hit Return. 
+2 - To Checkout a book, type checkout or 2 and hit Return.
+3 - To Return a book, type return or 3 and hit Return.
+4 - To Remove a book, type remove or 4 and hit Return.
+5 - To Exit, type exit or 5 and hit Return.";
 
         static void Main(string[] args)
         {
@@ -50,7 +50,7 @@ Welcome to the Osborn Family Library Management App.
             {
                 if (searchResult.Any())
                 {
-                    Console.WriteLine("Please enter the ID of the book you would like to Check out.");
+                    Console.WriteLine("Please enter the ID of the book you would like to select.");
                     for(int i = 0; i < searchResult.Count; i++)
                     {
                         Console.WriteLine($"ID: {i}, Title: {searchResult[i].Title}, Author: {searchResult[i].Author}");
@@ -102,7 +102,7 @@ Welcome to the Osborn Family Library Management App.
                             Console.Clear();
                             Console.WriteLine("Please Enter the Title of the Book you would like to Check out.");
                             string searchTitle = Console.ReadLine();
-                            List<Item> searchResult = itemsList.FindAll(x => x.Title.Contains(searchTitle) && x.OnLoan.Equals(false));
+                            List<Item> searchResult = itemsList.FindAll(x => x.Title.ToLower().Contains(searchTitle.ToLower()) && x.OnLoan.Equals(false));
                             Item itemToLoan = null;
                             itemToLoan = GetItem(searchResult);
                             if (itemToLoan != null && itemToLoan.OnLoan == false) 
@@ -129,7 +129,7 @@ Welcome to the Osborn Family Library Management App.
                             Console.WriteLine("Please Enter your full name");
                             string name = Console.ReadLine();
                             Item itemToReturn = null;
-                            List<Item> itemsOnLoan = itemsList.FindAll(x => x.Loanee == name);
+                            List<Item> itemsOnLoan = itemsList.FindAll(x => x.Loanee.ToLower() == name.ToLower());
                             if (itemsOnLoan.Any())
                             {
                                 itemToReturn = GetItem(itemsOnLoan);
@@ -156,7 +156,7 @@ Welcome to the Osborn Family Library Management App.
                             Console.Clear();
                             Console.WriteLine("Please enter the title of the book you would like to remove permanently from the library.");
                             string searchTitle = Console.ReadLine();
-                            List<Item> searchResult = itemsList.FindAll(x => x.Title.Contains(searchTitle));
+                            List<Item> searchResult = itemsList.FindAll(x => x.Title.ToLower().Contains(searchTitle.ToLower()));
                             Item itemToDelete;
                             itemToDelete = GetItem(searchResult);
                             itemsList.Remove(itemToDelete);
