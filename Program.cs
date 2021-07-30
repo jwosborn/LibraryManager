@@ -63,9 +63,16 @@ Welcome to the Osborn Family Library Management App.
                 }
             }
 
+            void DisplayDate() 
+            {
+                DateTime date = DateTime.Now;
+                Console.WriteLine(date);
+            }
+
             //Master Loop
             while(keepGoing)
             {
+                DisplayDate();
                 Console.WriteLine(Menu);
                 var menuInput = Console.ReadLine().ToLower();
 
